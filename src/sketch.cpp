@@ -20,6 +20,7 @@ void setup()
 	TRISAbits.TRISA3 = 0;
 	LATAbits.LATA3 = 0;
 
+
 	OpenTimer1(T1_ON | T1_PS_1_1 | T1_SOURCE_EXT | T1_SYNC_EXT_OFF, 0xFFFF);
 	
 	OpenTimer4(T4_ON | T4_PS_1_256 | T4_SOURCE_INT, 62500);
@@ -28,6 +29,7 @@ void setup()
 	IFS0CLR = 0x00010000; // Clear timer interrupt status flag
 	IEC0SET = 0x00010000; // Habilita inturrupciones de los temporizadores
 
+	TRISCbits.TRISC3 = 1;
 }
 
 void loop()

@@ -19,3 +19,11 @@ Para aumentar la máxima frecuencia es necesario cambiar el periodo del
 temporizador 4 para que genere la interrupción con más frecuencia. Si generara
 una interrupción cada 1/10 sec la frecuencia máxima sería 655350 Hz. Haciendo
 esto también se reduce la precisión y se reduce el tiempo de obtención.
+
+Por su forma de funcionar, tiene un error de +-5Hz debido que, cuando se genera
+la interrupción, el otro temporizador está en mitad de una cuenta. Como la
+cuenta se multiplica por 5 para obtener la frecuencia, el error que se
+introduce es de +-5Hz.
+
+También es necesario tener en cuenta la precisión del oscilador que se usa para
+generar las interrupciones, pues también introduce un error en la cuenta.
