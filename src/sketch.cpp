@@ -21,11 +21,9 @@ void setup()
 
 	OpenTimer1(T1_ON | T1_PS_1_1 | T1_SOURCE_EXT | T1_SYNC_EXT_OFF, 0xFFFF);
 	
-	OpenTimer4(T4_ON | T4_PS_1_256 | T4_SOURCE_INT, 62500);
-	IPC4SET = 0x0000000C; // Nivel de prioridad 3
-	IPC4SET = 0x00000001; // Subprioridad 1
-	IFS0CLR = 0x00010000; // Clear timer interrupt status flag
-	IEC0SET = 0x00010000; // Habilita inturrupciones de los temporizadores
+	OpenTimer45(T45_ON | T45_PS_1_256 | T45_SOURCE_INT | T45_32BIT_MODE_ON, 156250);
+	ConfigIntTimer45(T45_INT_ON | T45_INT_PRIOR_1 | T45_INT_SUB_PRIOR_1);
+	INTEnableSystemMultiVectoredInt();
 }
 
 void loop()
@@ -35,7 +33,7 @@ void loop()
 		Serial1.write(0xFE);
 		Serial1.write(0x01);
 		Serial1.print("Freq: ");
-		Serial1.print(cuenta * 5);
+		Serial1.print(cuenta * 2);
 		Serial1.write(0xFE);
 		Serial1.write(0x8E);
 		Serial1.print("Hz");
@@ -43,11 +41,11 @@ void loop()
 }
 
 extern "C" {
-	void __ISR(_TIMER_4_VECTOR,ipl3)Timer4Handler(void)
+	void __ISR(_TIMER_5_VECTOR,ipl1)Timer4Handler(void)
 	{
 		cuenta = TMR1;
 		TMR1 = 0x0;
-		IFS0CLR = 0x00010000;
+		IFS0CLR = 0x00100000;
 		listo = true;
 	}
 	// void __ISR(_TIMER_1_VECTOR,ipl3)Timer1Handler(void)
