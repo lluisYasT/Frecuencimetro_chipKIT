@@ -22,7 +22,7 @@ void setup()
 	OpenTimer1(T1_ON | T1_PS_1_1 | T1_SOURCE_EXT | T1_SYNC_EXT_OFF, 0xFFFF);
 	
 	OpenTimer45(T45_ON | T45_PS_1_256 | T45_SOURCE_INT | T45_32BIT_MODE_ON, 156250);
-	ConfigIntTimer45(T45_INT_ON | T45_INT_PRIOR_1 | T45_INT_SUB_PRIOR_1);
+	ConfigIntTimer45(T45_INT_ON | T45_INT_PRIOR_7 | T45_INT_SUB_PRIOR_1);
 	INTEnableSystemMultiVectoredInt();
 }
 
@@ -41,7 +41,7 @@ void loop()
 }
 
 extern "C" {
-	void __ISR(_TIMER_5_VECTOR,ipl1)Timer4Handler(void)
+	void __ISR(_TIMER_5_VECTOR,IPL7SRS)Timer4Handler(void)
 	{
 		cuenta = TMR1;
 		TMR1 = 0x0;
